@@ -19,9 +19,11 @@ public class FileManager {
      * @param wiseSaying
      * @throws IOException
      */
-    public void saveWiseSayingAsJson(WiseSaying wiseSaying) throws IOException  {
+    public void saveWiseSayingAsJson(WiseSaying wiseSaying)  {
         try(FileOutputStream output = new FileOutputStream(JSON_FOLDER + wiseSaying.getId() +".json");){
             output.write(jsonManager.WiseSaying2json(wiseSaying).getBytes());
+        }catch (IOException e){
+            System.out.println("error while saving wiseSaying");
         }
     }
 
@@ -32,17 +34,14 @@ public class FileManager {
     public void saveWiseSayingsAsJsons(WiseSayingArray array){
         WiseSayingArray.WiseSayingIterator iterator = array.iterator();
         int id = array.getWiseSayingId();
-        try{
-            // saves many wise sayings
-            while (iterator.hasNext()) {
-                WiseSaying wiseSaying = iterator.next();
-                    saveWiseSayingAsJson(wiseSaying);
-            }
-            // saves last id
-            saveLastId(id);
-        } catch (IOException e) {
-            System.out.println("Error saving content");
+        // saves many wise sayings
+        while (iterator.hasNext()) {
+            WiseSaying wiseSaying = iterator.next();
+                saveWiseSayingAsJson(wiseSaying);
         }
+        // saves last id
+        saveLastId(id);
+        System.out.println("Error saving content");
     }
 
     /**
@@ -55,7 +54,7 @@ public class FileManager {
                 output.write(jsonManager.wiseSaying2json(iterator).getBytes());
             }
         } catch (IOException e) {
-            System.out.println("Error saving content");
+            System.out.println("Error saving wise saying");
         }
     }
 
@@ -64,10 +63,20 @@ public class FileManager {
      * @param id
      * @throws IOException
      */
-    public void saveLastId(int id) throws IOException {
+    public void saveLastId(int id) {
         try(FileOutputStream output = new FileOutputStream(FINAL_ID_FILE);){
             output.write(Integer.toString(id).getBytes());
+        }catch (IOException e){
+            System.out.println("Error saving last id");
         }
+    }
+
+    public Boolean deleteWiseSayingJson(int id) {
+        File file = new File(JSON_FOLDER + id + ".json");
+        if (file.exists()) {
+            return file.delete();
+        }
+        return false;
     }
 
     /**

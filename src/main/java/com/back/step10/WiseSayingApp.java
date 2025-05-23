@@ -47,6 +47,8 @@ public class WiseSayingApp {
         WiseSaying newWiseSaying = new WiseSaying(content, author);
         wiseSayingArray.add(newWiseSaying);
         System.out.println(newWiseSaying.getId() + "번 명언이 등록되었습니다.");
+        fileManager.saveWiseSayingAsJson(newWiseSaying);
+
     }
 
     /**
@@ -106,6 +108,7 @@ public class WiseSayingApp {
         boolean success = wiseSayingArray.removeWiseSayingById(id);
         if (success){
             System.out.println( id+"번 명언이 삭제되었습니다.");
+            fileManager.deleteWiseSayingJson(id);
         }else{
             System.out.println( id+"번 명언은 존재하지 않습니다.");
         }
@@ -134,6 +137,7 @@ public class WiseSayingApp {
         String author = getInput();
         wiseSaying.setContent(content_str);
         wiseSaying.setAuthor(author);
+        fileManager.saveWiseSayingAsJson(wiseSaying);
     }
 
     /**
@@ -166,7 +170,7 @@ public class WiseSayingApp {
                 build();
             }
         }
-        fileManager.saveWiseSayingsAsJsons(wiseSayingArray);
+        fileManager.saveLastId(wiseSayingArray.getWiseSayingId());
         return;
     }
 
