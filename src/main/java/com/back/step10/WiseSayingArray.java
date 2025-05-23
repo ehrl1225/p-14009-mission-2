@@ -1,9 +1,14 @@
 package com.back.step10;
 
+
+/**
+ * dynamic sized array to store wise saying
+ */
 public class WiseSayingArray {
 
     private WiseSaying[] wiseSayings = null;
-    final static private int DEFAULT_SIZE = 10;
+    private final static int DEFAULT_SIZE = 10;
+    private final int WISE_SAYING_NOT_FOUND = -1;
     private int current_size;
     private int current_index;
     private int wise_saying_id = 0;
@@ -19,8 +24,18 @@ public class WiseSayingArray {
         return wise_saying_id;
     }
 
+    //setter
+    public void setWiseSayingId(int id){
+        wise_saying_id = id;
+    }
+
+    /**
+     * literally return wise saying index by id
+     * @param id
+     * @return
+     */
     private int getWiseSayingIndexByID(int id){
-        int index = -1;
+        int index = WISE_SAYING_NOT_FOUND;
         for (int i = 0; i < current_index; i++){
             if (wiseSayings[i].getId() == id){
                 index = i;
@@ -30,19 +45,19 @@ public class WiseSayingArray {
         return index;
     }
 
+    /**
+     * literally return wise saying by id
+     * @param id
+     * @return
+     */
     public WiseSaying getWiseSayingById(int id){
         int index = getWiseSayingIndexByID(id);
-        if (index == -1){
+        if (index == WISE_SAYING_NOT_FOUND){
             return null;
         }
         return wiseSayings[index];
     }
 
-    //setter
-
-    public void setWiseSayingId(int id){
-        wise_saying_id = id;
-    }
 
     /**
      * when adding wiseSaying, id is given by this
@@ -65,9 +80,6 @@ public class WiseSayingArray {
         wiseSayings[current_index++] = wiseSaying;
     }
 
-    public int getCurrentIndex(){
-        return current_index;
-    }
 
     /**
      * make string to show all the items
@@ -96,7 +108,7 @@ public class WiseSayingArray {
      */
     public boolean removeWiseSayingById(int id){
         int index = getWiseSayingIndexByID(id);
-        if (index == -1){
+        if (index == WISE_SAYING_NOT_FOUND){
             return false;
         }
         for (int i = index; i< current_index-1;i++){
@@ -141,6 +153,10 @@ public class WiseSayingArray {
             return current_index < end_index + 1;
         }
 
+        /**
+         * get wise saying but null value
+         * @return
+         */
         public WiseSaying next(){
             if (!hasNext()){
                 return null;

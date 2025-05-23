@@ -33,10 +33,12 @@ public class FileManager {
         WiseSayingArray.WiseSayingIterator iterator = array.iterator();
         int id = array.getWiseSayingId();
         try{
+            // saves many wise sayings
             while (iterator.hasNext()) {
                 WiseSaying wiseSaying = iterator.next();
                     saveWiseSayingAsJson(wiseSaying);
             }
+            // saves last id
             saveLastId(id);
         } catch (IOException e) {
             System.out.println("Error saving content");
@@ -76,9 +78,8 @@ public class FileManager {
     public int loadLastId() throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(FINAL_ID_FILE));
         StringBuilder sb = new StringBuilder();
-        while (br.ready()) {
-            sb.append(br.readLine());
-        }
+        // there won't be '\n' in this file
+        sb.append(br.readLine());
         br.close();
         return Integer.parseInt(sb.toString());
     }
@@ -108,6 +109,7 @@ public class FileManager {
         File id_file = new File(FINAL_ID_FILE);
         File[] files = dir.listFiles();
         try{
+            // load all json file but data.json
             for (File file : Objects.requireNonNull(files)) {
                 String fileName = file.getPath();
                 // exclude data.json
@@ -119,7 +121,7 @@ public class FileManager {
                     array.add(wiseSaying);
                 }
             }
-            //
+            // load last id
             if (id_file.exists()) {
                 int id=loadLastId();
                 array.setWiseSayingId(id);
