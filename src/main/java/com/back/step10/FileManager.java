@@ -1,7 +1,6 @@
 package com.back.step10;
 
 import java.io.*;
-import java.util.Objects;
 
 public class FileManager {
     final static String JSON_FOLDER = "./db/wiseSaying/";
@@ -117,18 +116,25 @@ public class FileManager {
         File dir = new File(JSON_FOLDER);
         File id_file = new File(FINAL_ID_FILE);
         File[] files = dir.listFiles();
+        FileListLink fileListLink = new FileListLink();
+        for (File file : files) {
+            String fileName = file.getName();
+            if (fileName.endsWith("data.json")) {
+                continue;
+            }
+            if (fileName.endsWith(".json")) {
+                fileListLink.addFile(file);
+            }
+        }
+        FileListLink.FileIterator iterator = fileListLink.iterator();
+
         try{
             // load all json file but data.json
-            for (File file : Objects.requireNonNull(files)) {
+            while (iterator.hasNext()) {
+                File file = iterator.next();
                 String fileName = file.getPath();
-                // exclude data.json
-                if (fileName.endsWith("data.json")) {
-                    continue;
-                }
-                if (fileName.endsWith(".json")) {
-                    WiseSaying wiseSaying = loadJsonAsWiseSaying(fileName);
-                    array.add(wiseSaying);
-                }
+                WiseSaying wiseSaying = loadJsonAsWiseSaying(fileName);
+                array.add(wiseSaying);
             }
             // load last id
             if (id_file.exists()) {

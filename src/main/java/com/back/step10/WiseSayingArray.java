@@ -71,7 +71,6 @@ public class WiseSayingArray {
             wiseSayings = new WiseSaying[new_size];
             System.arraycopy(pre_wiseSayings, 0, wiseSayings, 0, current_size);
             current_size = new_size;
-
         }
         // must give id to only new made wiseSaying
         if (wiseSaying.getId() == 0){
