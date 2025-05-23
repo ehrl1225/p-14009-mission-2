@@ -12,13 +12,13 @@ public class JsonManager {
     public String WiseSaying2json(WiseSaying wiseSaying) {
         StringBuilder json = new StringBuilder();
         json.append("{\n");
-        json.append("    \"id\": ");
+        json.append("  \"id\": ");
         json.append(wiseSaying.getId());
         json.append(",\n");
-        json.append("    \"content\": \"");
+        json.append("  \"content\": \"");
         json.append(wiseSaying.getContent());
         json.append("\",\n");
-        json.append("    \"author\": \"");
+        json.append("  \"author\": \"");
         json.append(wiseSaying.getAuthor());
         json.append("\"\n}");
         return json.toString();
@@ -38,7 +38,7 @@ public class JsonManager {
             String[] lines = content_json.split("\n");
             for (int i = 0; i < lines.length; i++) {
                 String line = lines[i];
-                json.append("    ");
+                json.append("  ");
                 json.append(line);
                 // last one need "," before "\n"
                 if (i < lines.length - 1) {
